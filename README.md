@@ -1,230 +1,319 @@
-# Detailed Cinema Database Management System Entity Explanations
+# Cinema DBMS Example Scenarios and Use Cases
 
-## 1. Movies Entity
+## 1. Movie Management Scenarios
 
-### Key Attributes:
-- **Movie ID (PK)**: Unique identifier for each movie
-- **Title**: Name of the movie
-- **Duration**: Length of the movie in minutes
-- **Release Date**: When the movie is released
-- **Genre**: Type of movie (Action, Drama, Comedy, etc.)
-- **Rating**: Age rating (G, PG, PG-13, R, etc.)
-- **Director**: Movie's director
-- **Cast Members**: Main actors in the movie
-- **Current Status**: Now Showing/Coming Soon
+### Scenario 1: New Movie Release
+```
+Movie Details:
+- Movie ID: MOV001
+- Title: "The Space Adventure"
+- Duration: 145 minutes
+- Release Date: 2024-11-15
+- Genre: Sci-Fi/Action
+- Rating: PG-13
+- Status: Coming Soon
 
-### Relationship Types:
-1. **Movies to Show Times (1:N)**
-   - One movie can have MANY show times
-   - Each show time must be for ONE movie
-   - Examples:
-     * "Avengers" showing at 10:00 AM, 2:00 PM, 6:00 PM
-     * Multiple halls showing same movie at different times
+Actions:
+1. Movie added to database
+2. Show times scheduled for opening week
+3. Promotions created for premiere night
+4. Halls allocated based on expected attendance
+```
 
-2. **Movies to Genres (M:N)**
-   - One movie can have MANY genres
-   - One genre can have MANY movies
-   - Examples:
-     * "Ant-Man" is both Action and Comedy
-     * "Inception" is both Sci-Fi and Thriller
+### Scenario 2: Movie Schedule Change
+```
+Situation: "The Space Adventure" needs schedule adjustment
+Original: 5 shows daily in Hall 1
+Change to: 3 shows daily, moved to Hall 2
+Reason: Lower than expected attendance
 
-### Business Rules:
-1. Must have valid release date
-2. Duration must be specified
-3. At least one genre must be assigned
-4. Rating must be specified before screening
+System Actions:
+1. Update show times
+2. Notify booked customers
+3. Adjust staff schedules
+4. Update availability in booking system
+```
 
-## 2. Theater Halls Entity
+## 2. Theater Hall Management
 
-### Key Attributes:
-- **Hall ID (PK)**: Unique identifier for each hall
-- **Hall Name/Number**: Identifier displayed to customers
-- **Seating Capacity**: Total number of seats
-- **Screen Type**: Regular/IMAX/3D
-- **Sound System**: Audio system specifications
-- **Current Status**: Active/Maintenance
+### Scenario 1: Regular Hall Operation
+```
+Hall 1 Daily Schedule:
+10:00 AM - "Kids Movie" (2D)
+01:00 PM - "Action Movie" (3D)
+04:00 PM - "Comedy Film" (2D)
+07:00 PM - "Horror Movie" (2D)
+10:00 PM - "Late Show" (2D)
 
-### Relationship Types:
-1. **Halls to Seats (1:N)**
-   - One hall CONTAINS many seats
-   - Each seat BELONGS TO one hall
-   - Examples:
-     * Hall 1 has seats A1-A30, B1-B30
-     * VIP Hall has special recliner seats
+Requirements:
+- 30 minutes between shows for cleaning
+- Different staff shifts
+- Concession stock adjusted based on show types
+```
 
-2. **Halls to Show Times (1:N)**
-   - One hall can host MANY show times
-   - Each show time uses ONE hall
-   - Examples:
-     * Hall 1 showing different movies throughout day
-     * IMAX hall reserved for specific formats
+### Scenario 2: Hall Maintenance
+```
+Situation: Hall 3 Projector Upgrade
+Duration: 2 days
+Impact:
+1. Reschedule 8 shows
+2. Relocate pre-booked tickets
+3. Staff reallocation
+4. Update system status
+```
 
-### Business Rules:
-1. Cannot exceed maximum capacity
-2. Must have maintenance schedule
-3. Screen type determines movie format compatibility
-4. Sound system must match screen type requirements
+## 3. Booking Scenarios
 
-## 3. Seats Entity
+### Scenario 1: Regular Booking
+```
+Customer Books Online:
+1. Selects: "The Space Adventure"
+2. Date: 2024-11-15
+3. Time: 7:00 PM
+4. Seats: B12, B13 (Middle row)
+5. Price: $15 per ticket
+6. Total: $30
+7. Payment: Credit Card
 
-### Key Attributes:
-- **Seat ID (PK)**: Unique identifier for each seat
-- **Hall ID (FK)**: Reference to containing hall
-- **Seat Number**: Visible identifier (e.g., A1, B2)
-- **Seat Type**: Regular/VIP/Couple
-- **Row Number**: Row identifier
-- **Status**: Available/Occupied/Maintenance
+System Actions:
+- Checks seat availability
+- Calculates price
+- Processes payment
+- Generates e-tickets
+- Sends confirmation email
+```
 
-### Relationship Types:
-1. **Seats to Tickets (1:N)**
-   - One seat can be used for MANY tickets (over time)
-   - Each ticket must have ONE specific seat
-   - Examples:
-     * Seat A1 used for different shows
-     * VIP seats having special pricing
+### Scenario 2: Group Booking
+```
+School Trip Booking:
+- Movie: "Educational Documentary"
+- Students: 40
+- Teachers: 4
+- Date: School Day Morning
+- Special Requirements: Adjacent seats
 
-2. **Seats to Halls (N:1)**
-   - MANY seats belong to ONE hall
-   - Each seat must be in ONE hall
+System Actions:
+1. Applies group discount
+2. Blocks entire seating section
+3. Generates group invoice
+4. Arranges special concession packages
+```
 
-### Business Rules:
-1. Cannot be double-booked
-2. Must have valid seat number format
-3. Status must be updated in real-time
-4. Maintenance status blocks booking
+## 4. Customer Management
 
-## 4. Show Times Entity
+### Scenario 1: New Member Registration
+```
+Customer Details:
+- Name: John Smith
+- Email: john@email.com
+- Phone: 123-456-7890
+- DOB: 1990-05-15
+- Membership: Regular
 
-### Key Attributes:
-- **Show ID (PK)**: Unique identifier for each show
-- **Movie ID (FK)**: Reference to movie being shown
-- **Hall ID (FK)**: Reference to hall being used
-- **Date**: Show date
-- **Start Time**: When show begins
-- **End Time**: When show ends
-- **Show Type**: 2D/3D/IMAX
-- **Price Category**: Regular/Premium/Special
-- **Available Seats**: Number of unsold seats
-- **Status**: Scheduled/Cancelled/Completed
+System Actions:
+1. Creates account
+2. Sends welcome email
+3. Issues membership ID
+4. Adds to promotional mailing list
+```
 
-### Relationship Types:
-1. **Show Times to Movies (N:1)**
-   - MANY show times for ONE movie
-   - Each show time has ONE movie
+### Scenario 2: Loyalty Program
+```
+Customer Activity:
+- Watches 2 movies per month
+- Regular concession purchases
+- Brings friends/family
 
-2. **Show Times to Tickets (1:N)**
-   - One show time can have MANY tickets
-   - Each ticket is for ONE show time
+Rewards:
+1. Points accumulated: 500
+2. Achievement: Silver Member
+3. Benefits unlocked:
+   - 10% ticket discount
+   - Free popcorn upgrade
+   - Priority booking
+```
 
-### Business Rules:
-1. Cannot overlap in same hall
-2. Must allow cleaning time between shows
-3. Must match hall capabilities
-4. Cannot sell more tickets than capacity
+## 5. Staff Management
 
-## 5. Customers Entity
+### Scenario 1: Regular Shift
+```
+Staff Member: Sarah (Ticket Counter)
+Shift: 2:00 PM - 10:00 PM
 
-### Key Attributes:
-- **Customer ID (PK)**: Unique identifier for each customer
-- **Name**: Customer's full name
-- **Email**: Contact email
-- **Phone Number**: Contact number
-- **Date of Birth**: For age verification
-- **Membership Status**: Regular/Premium/VIP
-- **Loyalty Points**: Points accumulated
-- **Registration Date**: When account was created
+Responsibilities:
+1. Ticket sales
+2. Customer queries
+3. Booking management
+4. Cash handling
 
-### Relationship Types:
-1. **Customers to Tickets (1:N)**
-   - One customer can have MANY tickets
-   - Each ticket belongs to ONE customer
+System Tracking:
+- Login/logout times
+- Sales transactions
+- Customer interactions
+```
 
-2. **Customers to Memberships (1:1)**
-   - Each customer has ONE membership level
-   - Each membership belongs to ONE customer
+### Scenario 2: Special Event
+```
+Movie Premiere Night:
+Staff Required:
+- 4 Ticket counter staff
+- 6 Ushers
+- 3 Concession staff
+- 2 Security personnel
+- 1 Manager
 
-### Business Rules:
-1. Must have valid email format
-2. Must be 13+ for account creation
-3. Points system rules
-4. Membership benefits rules
+System Actions:
+1. Special shift creation
+2. Staff assignment
+3. Extra pay calculation
+4. Event checklist tracking
+```
 
-## 6. Tickets Entity
+## 6. Concession Management
 
-### Key Attributes:
-- **Ticket ID (PK)**: Unique identifier for each ticket
-- **Show ID (FK)**: Reference to show time
-- **Customer ID (FK)**: Reference to customer
-- **Seat ID (FK)**: Reference to specific seat
-- **Price**: Final ticket price
-- **Purchase DateTime**: When ticket was bought
-- **Payment Status**: Paid/Pending/Refunded
-- **Booking Status**: Confirmed/Cancelled
-- **Payment Method**: Cash/Card/Online
+### Scenario 1: Regular Stock Management
+```
+Daily Operations:
+1. Morning Stock Check:
+   - Popcorn: 100 units
+   - Soft Drinks: 200 units
+   - Snacks: 150 units
 
-### Relationship Types:
-1. **Tickets to Show Times (N:1)**
-   - MANY tickets for ONE show time
-   - Each ticket for ONE show time
+2. Auto-reorder Points:
+   - Popcorn: <20 units
+   - Soft Drinks: <50 units
+   - Snacks: <30 units
 
-2. **Tickets to Customers (N:1)**
-   - MANY tickets can belong to ONE customer
-   - Each ticket belongs to ONE customer
+3. Sales Tracking:
+   - Real-time inventory updates
+   - Popular item alerts
+   - Waste monitoring
+```
 
-### Business Rules:
-1. Cannot sell after show starts
-2. Cancellation policy rules
-3. Refund rules
-4. Price must match show category
+### Scenario 2: Special Promotion
+```
+Weekend Combo Deal:
+- Large Popcorn
+- 2 Medium Drinks
+- 1 Snack
+Regular Price: $25
+Deal Price: $18
 
-## 7. Staff Entity
+System Actions:
+1. Updates POS system
+2. Adjusts inventory tracking
+3. Monitors promotion performance
+```
 
-### Key Attributes:
-- **Employee ID (PK)**: Unique identifier for each staff
-- **Name**: Staff member's name
-- **Role**: Position/Job title
-- **Contact Information**: Phone/Email
-- **Schedule**: Working hours
-- **Employment Status**: Active/Inactive
+## 7. Promotion Scenarios
 
-### Relationship Types:
-1. **Staff to Halls (M:N)**
-   - One staff can work in MANY halls
-   - One hall can have MANY staff
+### Scenario 1: Holiday Special
+```
+Christmas Season Promotion:
+1. Family Package:
+   - 4 tickets
+   - 2 large popcorn
+   - 4 drinks
+   - 20% discount
 
-2. **Staff to Shows (M:N)**
-   - One staff can work MANY shows
-   - One show can have MANY staff
+2. Special Screening:
+   - Christmas movies
+   - Decorated halls
+   - Special concession items
 
-### Business Rules:
-1. Cannot exceed working hours limit
-2. Must have break periods
-3. Qualifications for roles
-4. Schedule conflict prevention
+System Management:
+- Time-limited offers
+- Package tracking
+- Special pricing rules
+```
 
-## 8. Concessions Entity
+### Scenario 2: Member Rewards
+```
+Birthday Month Promotion:
+Eligible: All registered members
+Offer: 
+- Free ticket on birthday
+- 25% off concessions
+- Special seating selection
 
-### Key Attributes:
-- **Item ID (PK)**: Unique identifier for each item
-- **Item Name**: Product name
-- **Category**: Food/Beverage
-- **Price**: Item cost
-- **Current Stock**: Available quantity
-- **Status**: Available/Unavailable
+System Actions:
+1. Automated email notification
+2. Digital coupon generation
+3. Validity period tracking
+```
 
-### Relationship Types:
-1. **Concessions to Orders (1:N)**
-   - One item can be in MANY orders
-   - Each order item is ONE concession
+## 8. Emergency Scenarios
 
-2. **Concessions to Staff (M:N)**
-   - MANY items managed by MANY staff
-   - Staff can manage MANY items
+### Scenario 1: Show Cancellation
+```
+Situation: Technical Problem
+Actions Required:
+1. Immediate show cancellation
+2. Customer notification
+3. Refund processing
+4. Alternative show options
+5. Staff reallocation
 
-### Business Rules:
-1. Stock level monitoring
-2. Price update rules
-3. Minimum stock alerts
-4. Expiry date tracking
+System Processes:
+- Batch SMS/Email alerts
+- Automatic refunds
+- Booking system updates
+```
 
-Would you like me to add any additional details to specific entities or explain any relationships in more depth?
+### Scenario 2: System Recovery
+```
+Situation: Power Outage
+Recovery Process:
+1. Backup system activation
+2. Current transaction protection
+3. Show schedule recovery
+4. Customer service protocol
+
+System Actions:
+- Data integrity check
+- Transaction reconciliation
+- Service restoration
+- Customer compensation
+```
+
+## 9. Reporting Scenarios
+
+### Scenario 1: Daily Operations
+```
+End of Day Reports:
+1. Ticket Sales:
+   - Total tickets: 850
+   - Revenue: $12,750
+   - Popular shows: 3 top movies
+
+2. Concessions:
+   - Total sales: $5,400
+   - Popular items
+   - Stock levels
+
+3. Customer Data:
+   - New registrations: 15
+   - Member visits: 125
+   - Feedback received: 8
+```
+
+### Scenario 2: Performance Analysis
+```
+Monthly Analytics:
+1. Movie Performance:
+   - Occupancy rates
+   - Peak times
+   - Popular genres
+
+2. Revenue Metrics:
+   - Ticket sales trends
+   - Promotion effectiveness
+   - Concession performance
+
+3. Customer Metrics:
+   - Membership growth
+   - Loyalty program usage
+   - Booking patterns
+```
+
+Would you like me to provide more specific examples for any particular aspect or add more scenarios for specific areas?
